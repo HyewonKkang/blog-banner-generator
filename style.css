@@ -241,6 +241,11 @@ header {
     background-color: var(--black);
 }
 
+.button.next-btn,
+.button.submit-btn {
+    display: none;
+}
+
 .button.prev-btn {
     display: none;
     background-color: var(--white);

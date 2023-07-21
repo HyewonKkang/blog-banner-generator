@@ -4,6 +4,7 @@ class Stepper {
         this.steps = document.querySelectorAll('.step');
         this.nextBtn = document.querySelector('.next-btn');
         this.prevBtn = document.querySelector('.prev-btn');
+        this.submitBtn = document.querySelector('.submit-btn');
         this.contents = document.querySelectorAll('.content');
 
         this._listen();
@@ -14,20 +15,22 @@ class Stepper {
         this.prevBtn.addEventListener('click', this.previous.bind(this));
     }
 
-    _showPrevButton() {
-        this.prevBtn.classList.add('visible');
+    show(el) {
+        el.classList.add('visible');
     }
 
-    _hidePrevButton() {
-        this.prevBtn.classList.remove('visible');
+    hide(el) {
+        el.classList.remove('visible');
     }
 
     _setFinishButton() {
-        this.nextBtn.textContent = 'Finish';
+        this.hide(this.nextBtn);
+        this.show(this.submitBtn);
     }
 
     _setNextButton() {
-        this.nextBtn.textContent = 'Next';
+        this.hide(this.submitBtn);
+        this.show(this.nextBtn);
     }
 
     _setNextItem(next) {
@@ -35,15 +38,15 @@ class Stepper {
     }
 
     _setNextContent(next) {
-        this.contents[this.currentIndex].classList.remove('visible');
-        this.contents[next].classList.add('visible');
+        this.hide(this.contents[this.currentIndex]);
+        this.show(this.contents[next]);
         this._setNextItem(next);
         this.currentIndex = next;
     }
 
     next() {
         if (this.currentIndex === this.steps.length - 1) {
-            this.submit();
+            this._setFinishButton();
             return;
         }
         const nextIndex =
@@ -53,7 +56,7 @@ class Stepper {
         this.steps[this.currentIndex].className = 'step step-item-finish';
         this._setNextContent(nextIndex);
 
-        if (this.currentIndex === 1) this._showPrevButton();
+        if (this.currentIndex === 1) this.show(this.prevBtn);
         else if (this.currentIndex === this.steps.length - 1) this._setFinishButton();
     }
 
@@ -62,11 +65,9 @@ class Stepper {
         this.steps[this.currentIndex].className = 'step step-item-wait';
         this._setNextContent(prevIndex);
 
-        if (this.currentIndex === 0) this._hidePrevButton();
+        if (this.currentIndex === 0) this.hide(this.prevBtn);
         if (this.currentIndex !== this.steps.length - 1) this._setNextButton();
     }
-
-    submit() {}
 }
 
 const stepper = new Stepper();
