@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>BLOG BANNER GENERATOR</title>
+        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="assets/webgradients.css" />
+    </head>
+    <body>
+        <header>
+            <a class="logo" onClick="window.location.reload()">
+                <img src="assets/images/logo.svg" />
+            </a>
+        </header>
+        <section class="container">
+            <div class="stepper">
+                <div class="step step-item-process">
+                    <div class="step-indicator">
+                        <div class="step-number">1</div>
+                    </div>
+                    <div class="step-content"></div>
+                </div>
+                <div class="step step-item-wait">
+                    <div class="step-indicator">
+                        <div class="step-number">2</div>
+                    </div>
+                </div>
+                <div class="step step-item-wait">
+                    <div class="step-indicator">
+                        <div class="step-number">3</div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-wrapper">
+                <div class="content content-1 visible">
+                    <p class="content-step-number">Step 1</p>
+                    <h3 class="content-title">배너 사이즈 고르기</h3>
+                    <p class="content-description">
+                        제작할 배너의 사이즈를 선택합니다. velog의 경우 4 x 3 사이즈의 배너를,
+                        tistory의 경우 1 x 1 사이즈의 배너를 선택하면 됩니다.
+                    </p>
+                    <div class="content-inner">
+                        <div class="banner-size-select-section">
+                            <div class="banner-size-template banner-size-selected" role="button">
+                                <div class="empty-banner banner-1x1"></div>
+                                <span>1 x 1</span>
+                            </div>
+                            <div class="banner-size-template" role="button">
+                                <div class="empty-banner banner-4x3"></div>
+                                <span>4 x 3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content content-2">
+                    <p class="content-step-number">Step 2</p>
+                    <h3 class="content-title">배너 템플릿 고르기</h3>
+                    <p class="content-description">
+                        원하는 배너 디자인을 템플릿 가운데 선택합니다.<br />
+                        원하는 디자인이 없는 경우,
+                        <a href="https://github.com/HyewonKkang/blog-banner-generator/issues"
+                            >이슈</a
+                        >에 남겨주시면 추가해드립니다. 단 이미지 도용은 불가합니다.
+                    </p>
+                    <div class="content-inner"></div>
+                </div>
+                <div class="content content-3">
+                    <p class="content-step-number">Step 3</p>
+                    <h3 class="content-title">배너 내부 요소 채우기</h3>
+                    <p class="content-description">
+                        선택한 배너의 색상 및 배경을 설정합니다. 이후 배너에 포함될 제목, 부제목,
+                        태그 요소 등을 입력하고 배치합니다.<br />
+                        완성된 배너는 이미지 형식으로 다운 받을 수 있습니다.
+                    </p>
+                    <div class="content-inner">
+                        <div class="preview juicy_peach preview-text-left">
+                            <div class="preview-title">제목을 입력하세요</div>
+                            <div class="preview-subtitle border-top">부제목을 입력하세요.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contour"></div>
+                <button class="button next-btn">Next</button>
+                <button class="button prev-btn">Previous</button>
+            </div>
+        </section>
+        <footer>
+            <div>
+                <a
+                    class="github-icon"
+                    href="https://github.com/HyewonKkang/blog-banner-generator"
+                    target="_blank"
+                    ><img width="32" src="assets/icons/github.svg"
+                /></a>
+            </div>
+            <div>©2023 HyewonKkang</div>
+        </footer>
+        <script src="js/app.js"></script>
+        <script src="js/stepper.js"></script>
+    </body>
+</html>

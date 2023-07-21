@@ -1,0 +1,311 @@
+@import 'assets/reset.css';
+
+:root {
+    --background: #fff;
+    --primary: #83adff;
+    --white: #fff;
+    --black: #3a3635;
+    --grey: #f5f5f5;
+    --grey-1: #ced1d5;
+    --grey-2: #969ca5;
+    --grey-3: #616a78;
+    --success: #7ec61f;
+    --info: #008cff;
+    --warning: #ffdc16;
+    --danger: #ff563f;
+
+    --stepper-indicator-size: 2rem;
+}
+
+html,
+body {
+    margin: 0;
+}
+
+body {
+    background-color: var(--white);
+}
+
+header {
+    padding: 0.5rem 2rem;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    cursor: pointer;
+}
+
+.logo img {
+    width: 15rem;
+}
+
+.container {
+    min-width: 300px;
+    max-width: 1440px;
+    padding: 2rem 12rem;
+    margin: 0 auto;
+    display: flex;
+}
+
+.stepper {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 400px;
+    gap: 0px;
+}
+
+.step {
+    position: relative;
+    display: flex;
+    flex: 1 1 0%;
+}
+
+.step:not(:last-child)::after {
+    content: '';
+    width: 2px;
+    position: absolute;
+    height: 100%;
+    max-height: calc(100% - var(--stepper-indicator-size) - 8px);
+    top: calc(var(--stepper-indicator-size) + 4px);
+    left: calc(var(--stepper-indicator-size) / 2 - 1px);
+    background-color: var(--grey-1);
+    flex: 1 1 0%;
+}
+
+.step-item-finish:not(:last-child)::after {
+    background-color: var(--primary);
+}
+
+.step .step-indicator {
+    width: var(--stepper-indicator-size);
+    height: var(--stepper-indicator-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-width: 2px;
+    border-radius: 9999px;
+    flex-shrink: 0;
+    background-color: var(--grey-1);
+}
+
+.step-indicator .step-number {
+    font-size: 1rem;
+    line-height: normal;
+    color: var(--white);
+}
+
+.step.step-item-finish .step-indicator {
+    background-color: var(--primary);
+    opacity: 0.5;
+}
+
+.step.step-item-process .step-indicator {
+    background-color: var(--primary);
+}
+
+.step.step-item-process .step-indicator::after {
+    content: '';
+    width: 2.2rem;
+    height: 2.2rem;
+    position: absolute;
+    border-radius: 9999px;
+    border: 3px solid var(--primary);
+    margin-left: 0.05rem;
+}
+
+.content-wrapper {
+    padding: 2rem 0rem 2rem 5rem;
+    flex: 1;
+}
+
+.content {
+    display: none;
+}
+
+.content.visible {
+    display: block;
+}
+
+.content .content-step-number {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--grey-2);
+    margin-bottom: 2rem;
+}
+
+.content .content-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.content .content-description {
+    line-height: 1.5rem;
+    color: var(--grey-3);
+    margin-bottom: 3rem;
+}
+
+.content .content-inner {
+    margin-bottom: 4rem;
+}
+
+.contour {
+    width: 100%;
+    height: 2px;
+    background-color: var(--grey);
+    margin-bottom: 2rem;
+}
+
+.banner-size-select-section {
+    display: flex;
+    gap: 2rem;
+}
+
+.banner-size-template {
+    padding: 3rem 3rem 2rem;
+    border-radius: 20px;
+    background: var(--white);
+    cursor: pointer;
+    position: relative;
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: var(--grey-2);
+    border: 3px solid var(--grey-1);
+}
+
+.banner-size-selected:before {
+    content: url('assets/icons/check-circle.svg');
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+
+.banner-size-selected {
+    color: var(--black);
+    transition: 0.3s;
+    border: 3px solid var(--primary);
+}
+
+.banner-size-selected .empty-banner {
+    opacity: 1;
+}
+
+.empty-banner {
+    width: 30%;
+    padding-top: 30%;
+    background-size: cover;
+    opacity: 0.4;
+}
+
+.empty-banner.banner-1x1 {
+    background-image: url('assets/icons/tistory.svg');
+}
+
+.empty-banner.banner-4x3 {
+    background-image: url('assets/icons/velog.svg');
+}
+
+.banner-size-template span {
+    margin-top: 1rem;
+}
+
+.button {
+    color: var(--white);
+    text-align: center;
+    letter-spacing: -0.05em;
+    background-color: var(--primary);
+    border-radius: 5px;
+    padding: 0.8em 2em;
+    font-size: 1.2em;
+    line-height: 1;
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+    border: none;
+}
+
+.button:not(:last-child) {
+    margin-right: 10px;
+}
+
+.button:hover {
+    color: var(--primary);
+    background-color: var(--black);
+}
+
+.button.prev-btn {
+    display: none;
+    background-color: var(--white);
+    color: var(--black);
+    border: 1px solid var(--grey-1);
+    padding: 0.8em 1.5em;
+}
+
+.button.visible {
+    display: inline-block;
+}
+
+.button.prev-btn:hover {
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    transition: 0.3s ease-in-out;
+}
+
+.preview {
+    margin: 0 auto;
+    height: 402px;
+    width: 768px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    padding: 0 3rem;
+}
+
+.preview-text-center {
+    align-items: center;
+}
+
+.preview-text-left {
+    align-items: start;
+}
+
+.preview .preview-title {
+    font-size: 3.2rem;
+    margin-bottom: 1rem;
+}
+
+.preview .preview-subtitle {
+    font-size: 1.5rem;
+    padding: 0.5rem;
+}
+
+.preview .preview-subtitle.border-top {
+    border-top: 1px solid #fff;
+    padding: 0.7rem;
+}
+
+footer {
+    background-color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    width: -webkit-fill-available;
+    padding: 2rem 1rem;
+}
+
+.github-icon {
+    cursor: pointer;
+}
