@@ -9,13 +9,16 @@ const gradientsContainer = document.querySelector('.gradients');
 const randomImageButton = document.querySelector('#random-image-btn');
 const urlImageButton = document.querySelector('#url-image-btn');
 const urlImageInput = document.querySelector('#img-url');
+const paletteContainer = document.querySelector('.palette');
 
+let selectedType = null;
 let selectedGradient = null;
+let selectedColor = null;
 
 titleField.addEventListener('keyup', debounce(onInputTitle));
 subTitleField.addEventListener('keyup', debounce(onInputSubtitle));
 bgSelectElements.forEach((item) => item.addEventListener('click', onClickBGSelect));
-randomImageButton.addEventListener('click', generateRandomImage);
+randomImageButton.addEventListener('click', onChangeBackgroundImage);
 urlImageButton.addEventListener('click', loadURLImage);
 
 fetch('../assets/gradients.json')
@@ -31,6 +34,21 @@ fetch('../assets/gradients.json')
             gradientsContainer.appendChild(div);
             div.addEventListener('click', onChangeGradient);
             if (idx === 0) selectedGradient = div;
+        });
+    });
+
+fetch('../assets/colors.json')
+    .then((res) => {
+        return res.json();
+    })
+    .then((jsonData) => {
+        jsonData.forEach((item, idx) => {
+            const div = document.createElement('div');
+            div.className = `color ${idx === 0 ? ' selected' : ''}`;
+            div.style.backgroundColor = item.color;
+            paletteContainer.appendChild(div);
+            div.addEventListener('click', onChangeSolidColor);
+            if (idx === 0) selectedColor = div;
         });
     });
 
@@ -50,6 +68,7 @@ function onClickBGSelect() {
             if (item.classList.contains('selected')) return;
             item.classList.toggle('selected');
             selectedSize = idx;
+            selectedType = item.id;
             if (bgInputContainer[idx].classList.contains('visible')) return;
             bgInputContainer[idx].classList.toggle('visible');
         } else {
@@ -68,6 +87,16 @@ function onChangeGradient(e) {
     selectedGradient = e.target;
 }
 
+function onChangeSolidColor(e) {
+    const color = e.target.style.backgroundColor;
+    preview.className = 'preview';
+    preview.style.backgroundImage = '';
+    preview.style.backgroundColor = color;
+    e.target.classList.add('selected');
+    selectedColor.classList.remove('selected');
+    selectedColor = e.target;
+}
+
 function debounce(callback, delay = 100) {
     let timer;
     return (...args) => {
@@ -76,13 +105,10 @@ function debounce(callback, delay = 100) {
     };
 }
 
-function setBackgroundImage(url) {
-    preview.style.backgroundImage = `url(${url})`;
-}
-
-function generateRandomImage() {
+function onChangeBackgroundImage() {
     fetch(`https://source.unsplash.com/random/1600x900`).then((res) => {
-        setBackgroundImage(res.url);
+        preview.style = '';
+        preview.style.backgroundImage = `url(${res.url})`;
     });
 }
 
@@ -102,12 +128,4 @@ function isValidURL(url) {
     } catch (error) {
         return false;
     }
-}
-
-function setFontColor(bgColor) {
-    const r = parseInt(bgColor.substr(1, 2), 16);
-    const g = parseInt(bgColor.substr(3, 2), 16);
-    const b = parseInt(bgColor.substr(5, 2), 16);
-    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-    return brightness >= 128 ? 'black' : 'white';
 }
