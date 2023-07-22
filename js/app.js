@@ -23,7 +23,10 @@ function toggleBannerSize() {
 }
 
 function captureExport() {
-    html2canvas(document.querySelector('.preview')).then((canvas) => {
+    html2canvas(document.querySelector('.preview'), {
+        allowTaint: true,
+        useCORS: true,
+    }).then((canvas) => {
         saveAs(canvas.toDataURL(), 'bloggyBanners');
     });
 }
