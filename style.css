@@ -3,6 +3,8 @@
 :root {
     --background: #fff;
     --primary: #83adff;
+    --primary-2: #b4d2ff;
+    --weak: #e6f2ff;
     --white: #fff;
     --black: #3a3635;
     --grey: #f5f5f5;
@@ -15,6 +17,7 @@
     --danger: #ff563f;
 
     --stepper-indicator-size: 2rem;
+    --select-button-border-radius: 5px;
 }
 
 html,
@@ -190,9 +193,10 @@ header {
 }
 
 .banner-size-selected {
-    color: var(--black);
+    color: var(--primary);
     transition: 0.3s;
     border: 3px solid var(--primary);
+    background: var(--weak);
 }
 
 .banner-size-selected .empty-banner {
@@ -297,6 +301,130 @@ header {
 .preview .preview-subtitle.border-top {
     border-top: 1px solid #fff;
     padding: 0.7rem;
+}
+
+.control-panel {
+    margin-top: 2rem;
+}
+
+.style-options-group {
+    margin-bottom: 1rem;
+}
+
+.select-button-group {
+    display: inline-flex;
+    border-radius: var(--select-button-border-radius);
+}
+
+.select-button-group .select-button {
+    color: var(--grey-2);
+    background: var(--white);
+    border: 1px solid var(--grey-1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 11px;
+    border-radius: var(--select-button-border-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    z-index: 0;
+}
+
+.select-button-group .select-button:not(:last-of-type) {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.select-button-group .select-button:not(:first-of-type) {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    margin-left: -1px;
+}
+
+.select-button-group.bg-select {
+}
+
+.select-button-group.bg-select .select-button {
+    min-width: 130px;
+}
+
+.select-button-group .select-button:not(:last-of-child) {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.select-button-group .selected {
+    color: var(--primary);
+    background: var(--weak);
+    border: 1px solid var(--primary);
+    z-index: 1;
+}
+
+.bg-input {
+    margin-top: 2rem;
+}
+
+.bg-input-type {
+    display: none;
+}
+
+.bg-input-type.gradients {
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, 100px);
+    grid-auto-rows: 100px;
+    height: 300px;
+    overflow-y: scroll;
+    position: relative;
+}
+
+.bg-input-type.gradients.visible {
+    display: grid;
+}
+
+.gradients .gradient-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 9999px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.gradients .gradient-circle.selected {
+    border: 5px solid var(--grey-1);
+}
+
+.bg-input-type.solid.visible {
+    display: block;
+}
+
+.bg-input-type.image.visible {
+    display: block;
+}
+
+.input-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.input-group input[type='text'] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 2.5rem;
+    min-width: 0px;
+    border-radius: 0.375rem;
+    border: 1px solid var(--grey-1);
+    font-size: 1rem;
+    transition-duration: 0.2s;
+    padding: 0 1rem;
+}
+
+.input-group input[type='text']:focus {
+    outline: none;
+    box-shadow: rgba(131, 173, 255, 1) 0px 0px 5px 0px, rgba(131, 173, 255, 1) 0px 0px 1px 0px;
 }
 
 footer {

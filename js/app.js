@@ -1,9 +1,12 @@
 const bannerSizeElements = document.querySelectorAll('.banner-size-template');
+const submitBtn = document.querySelector('.submit-btn');
 let selectedSize = 0;
 
 bannerSizeElements.forEach((item) => {
     item.addEventListener('click', toggleBannerSize);
 });
+
+submitBtn.addEventListener('click', captureExport);
 
 function toggleBannerSize() {
     const clickedItem = this;
@@ -17,4 +20,23 @@ function toggleBannerSize() {
             item.classList.remove('banner-size-selected');
         }
     });
+}
+
+function captureExport() {
+    html2canvas(document.querySelector('.preview')).then((canvas) => {
+        saveAs(canvas.toDataURL(), 'bloggyBanners');
+    });
+}
+
+function saveAs(uri, filename) {
+    let link = document.createElement('a');
+    if (typeof link.download === 'string') {
+        link.download = filename;
+        link.href = uri;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } else {
+        window.open(uri);
+    }
 }

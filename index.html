@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         <title>BLOG BANNER GENERATOR</title>
         <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="assets/webgradients.css" />
@@ -74,12 +75,37 @@
                         완성된 배너는 이미지 형식으로 다운 받을 수 있습니다.
                     </p>
                     <div class="content-inner">
-                        <div class="preview juicy_peach preview-text-left">
+                        <div class="preview warm_flame">
                             <div class="preview-title">제목을 입력하세요</div>
                             <div class="preview-subtitle border-top">부제목을 입력하세요.</div>
                         </div>
                         <div class="control-panel">
-                            <div class="style-options-group"></div>
+                            <div class="style-options-group">
+                                <div class="select-button-group bg-select">
+                                    <button
+                                        class="select-button selected"
+                                        id="gradient-type"
+                                        tabindex="0"
+                                    >
+                                        그라디언트
+                                    </button>
+                                    <button class="select-button" id="solid-type" tabindex="1">
+                                        단색
+                                    </button>
+                                    <button class="select-button" id="image-type" tabindex="2">
+                                        이미지
+                                    </button>
+                                </div>
+                                <div class="bg-input">
+                                    <div class="gradients visible bg-input-type"></div>
+                                    <div class="solid bg-input-type">
+                                        <!-- colorpicker -->
+                                    </div>
+                                    <div class="image bg-input-type">
+                                        <!-- image url / random image -->
+                                    </div>
+                                </div>
+                            </div>
                             <div class="input-group">
                                 <input type="text" id="title" placeholder="제목을 입력하세요." />
                                 <input
@@ -110,6 +136,7 @@
         </footer> -->
         <script src="js/app.js"></script>
         <script src="js/stepper.js"></script>
+        <script src="js/input.js"></script>
         <script src="assets/js/html2canvas.js"></script>
         <script src="assets/js/html2canvas.min.js"></script>
     </body>
