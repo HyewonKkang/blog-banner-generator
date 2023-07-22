@@ -6,12 +6,17 @@ const previewSubtitle = document.querySelector('.preview-subtitle');
 const bgSelectElements = document.querySelector('.bg-select').querySelectorAll('.select-button');
 const bgInputContainer = document.querySelector('.bg-input').querySelectorAll('.bg-input-type');
 const gradientsContainer = document.querySelector('.gradients');
+const randomImageButton = document.querySelector('#random-image-btn');
+const urlImageButton = document.querySelector('#url-image-btn');
+const urlImageInput = document.querySelector('#img-url');
 
 let selectedGradient = null;
 
 titleField.addEventListener('keyup', debounce(onInputTitle));
 subTitleField.addEventListener('keyup', debounce(onInputSubtitle));
 bgSelectElements.forEach((item) => item.addEventListener('click', onClickBGSelect));
+randomImageButton.addEventListener('click', generateRandomImage);
+urlImageButton.addEventListener('click', loadURLImage);
 
 fetch('../assets/gradients.json')
     .then((res) => {
@@ -56,6 +61,7 @@ function onClickBGSelect() {
 
 function onChangeGradient(e) {
     const gradientClass = e.target.classList[1];
+    preview.style = '';
     preview.className = `preview ${gradientClass}`;
     e.target.classList.add('selected');
     selectedGradient.classList.remove(`selected`);
@@ -68,4 +74,40 @@ function debounce(callback, delay = 100) {
         clearTimeout(timer);
         timer = setTimeout(() => callback(...args), delay);
     };
+}
+
+function setBackgroundImage(url) {
+    preview.style.backgroundImage = `url(${url})`;
+}
+
+function generateRandomImage() {
+    fetch(`https://source.unsplash.com/random/1600x900`).then((res) => {
+        setBackgroundImage(res.url);
+    });
+}
+
+function loadURLImage() {
+    const url = urlImageInput.value;
+    if (!isValidURL(url)) {
+        alert('올바르지 않은 URL 입니다.');
+        return;
+    }
+    setBackgroundImage(url);
+}
+
+function isValidURL(url) {
+    try {
+        const urlObject = new URL(url);
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
+function setFontColor(bgColor) {
+    const r = parseInt(bgColor.substr(1, 2), 16);
+    const g = parseInt(bgColor.substr(3, 2), 16);
+    const b = parseInt(bgColor.substr(5, 2), 16);
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+    return brightness >= 128 ? 'black' : 'white';
 }

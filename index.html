@@ -102,13 +102,34 @@
                                         <!-- colorpicker -->
                                     </div>
                                     <div class="image bg-input-type">
-                                        <!-- image url / random image -->
+                                        <label for="random-image">랜덤 이미지 생성하기</label>
+                                        <button type="button" class="button" id="random-image-btn">
+                                            Generate
+                                        </button>
+                                        <label for="img-url">이미지 URL 직접 입력하기</label>
+                                        <span class="textfield-button-group">
+                                            <input
+                                                type="text"
+                                                class="textfield"
+                                                id="img-url"
+                                                placeholder="https://"
+                                            />
+                                            <button type="button" class="button" id="url-image-btn">
+                                                Enter
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="input-group">
-                                <input type="text" id="title" placeholder="제목을 입력하세요." />
                                 <input
+                                    class="textfield"
+                                    type="text"
+                                    id="title"
+                                    placeholder="제목을 입력하세요."
+                                />
+                                <input
+                                    class="textfield"
                                     type="text"
                                     id="subtitle"
                                     placeholder="부제목을 입력하세요."
