@@ -277,26 +277,33 @@ header {
     flex-direction: column;
     justify-content: center;
     color: white;
-    padding: 0 3rem;
+    padding: 0 5rem;
     background-size: cover;
 }
 
 .preview-text-center {
     align-items: center;
+    text-align: center;
 }
 
 .preview-text-left {
     align-items: start;
+    text-align: left;
+}
+
+.preview-text-right {
+    align-items: end;
+    text-align: right;
 }
 
 .preview .preview-title {
-    font-size: 3.2rem;
-    margin-bottom: 1rem;
+    font-size: 2.7rem;
 }
 
 .preview .preview-subtitle {
     font-size: 1.5rem;
     padding: 0.5rem;
+    margin-top: 1rem;
 }
 
 .preview .preview-subtitle.border-top {
@@ -317,7 +324,8 @@ header {
     border-radius: var(--select-button-border-radius);
 }
 
-.select-button-group .select-button {
+.select-button-group .select-button,
+.font-color-preview {
     color: var(--grey-2);
     background: var(--white);
     border: 1px solid var(--grey-1);
@@ -343,9 +351,6 @@ header {
     margin-left: -1px;
 }
 
-.select-button-group.bg-select {
-}
-
 .select-button-group.bg-select .select-button {
     min-width: 130px;
 }
@@ -355,7 +360,8 @@ header {
     border-bottom-right-radius: 0px;
 }
 
-.select-button-group .selected {
+.select-button-group .selected,
+.font-color-preview:hover {
     color: var(--primary);
     background: var(--weak);
     border: 1px solid var(--primary);
@@ -417,6 +423,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid var(--grey-1);
 }
 
 .palette .color.selected {
@@ -425,6 +432,43 @@ header {
 
 .palette .color.selected::after {
     content: url('assets/icons/check.svg');
+}
+
+.solid .hidden-bg-color-picker {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid var(--grey-1);
+}
+
+.solid .hidden-bg-color-picker::after {
+    content: url('assets/icons/color-picker.svg');
+    position: absolute;
+    width: 20px;
+}
+
+.solid .hidden-bg-color-picker::-webkit-color-swatch {
+    border-radius: 10px;
+    border: none;
+}
+.solid .hidden-bg-color-picker::-moz-color-swatch {
+    border-radius: 10px;
+    border: none;
+}
+
+.solid .hidden-bg-color-picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+    border-radius: 10px;
 }
 
 .bg-input-type.image.visible {
@@ -479,6 +523,32 @@ header {
 .textfield:focus {
     outline: none;
     box-shadow: rgba(131, 173, 255, 1) 0px 0px 5px 0px, rgba(131, 173, 255, 1) 0px 0px 1px 0px;
+}
+
+.text-control-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.text-control-group .font-color-picker {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.font-color-picker .font-color-preview {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.font-color-picker .hidden-font-color-picker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
 }
 
 footer {

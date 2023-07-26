@@ -5,52 +5,23 @@ const previewTitle = document.querySelector('.preview-title');
 const previewSubtitle = document.querySelector('.preview-subtitle');
 const bgSelectElements = document.querySelector('.bg-select').querySelectorAll('.select-button');
 const bgInputContainer = document.querySelector('.bg-input').querySelectorAll('.bg-input-type');
-const gradientsContainer = document.querySelector('.gradients');
-const randomImageButton = document.querySelector('#random-image-btn');
-const urlImageButton = document.querySelector('#url-image-btn');
-const urlImageInput = document.querySelector('#img-url');
-const paletteContainer = document.querySelector('.palette');
+
+titleField.addEventListener('keyup', debounce(onInputTitle));
+subTitleField.addEventListener('keyup', debounce(onInputSubtitle));
+bgSelectElements.forEach((item) => item.addEventListener('click', onClickBackgroundType));
 
 let selectedType = null;
 let selectedGradient = null;
 let selectedColor = null;
+let textAlignClass = 'preview-text-left';
 
-titleField.addEventListener('keyup', debounce(onInputTitle));
-subTitleField.addEventListener('keyup', debounce(onInputSubtitle));
-bgSelectElements.forEach((item) => item.addEventListener('click', onClickBGSelect));
-randomImageButton.addEventListener('click', onChangeBackgroundImage);
-urlImageButton.addEventListener('click', loadURLImage);
-
-fetch('../assets/gradients.json')
-    .then((res) => {
-        return res.json();
-    })
-    .then((jsonData) => {
-        jsonData.forEach((item, idx) => {
-            const div = document.createElement('div');
-            div.className = `gradient-circle ${item.name.toLowerCase().replace(/\s/g, '_')}${
-                idx === 0 ? ' selected' : ''
-            }`;
-            gradientsContainer.appendChild(div);
-            div.addEventListener('click', onChangeGradient);
-            if (idx === 0) selectedGradient = div;
-        });
-    });
-
-fetch('../assets/colors.json')
-    .then((res) => {
-        return res.json();
-    })
-    .then((jsonData) => {
-        jsonData.forEach((item, idx) => {
-            const div = document.createElement('div');
-            div.className = `color ${idx === 0 ? ' selected' : ''}`;
-            div.style.backgroundColor = item.color;
-            paletteContainer.appendChild(div);
-            div.addEventListener('click', onChangeSolidColor);
-            if (idx === 0) selectedColor = div;
-        });
-    });
+function debounce(callback, delay = 100) {
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => callback(...args), delay);
+    };
+}
 
 function onInputTitle(e) {
     previewTitle.textContent = e.target.value;
@@ -60,7 +31,7 @@ function onInputSubtitle(e) {
     previewSubtitle.textContent = e.target.value;
 }
 
-function onClickBGSelect() {
+function onClickBackgroundType() {
     const clickedItem = this;
 
     bgSelectElements.forEach((item, idx) => {
@@ -78,32 +49,84 @@ function onClickBGSelect() {
     });
 }
 
+/**
+ * gradient background
+ */
+
+const gradientsContainer = document.querySelector('.gradients');
+
+fetch('../assets/gradients.json')
+    .then((res) => {
+        return res.json();
+    })
+    .then((jsonData) => {
+        jsonData.forEach((item, idx) => {
+            const div = document.createElement('div');
+            div.className = `gradient-circle ${item.name.toLowerCase().replace(/\s/g, '_')}${
+                idx === 0 ? ' selected' : ''
+            }`;
+            gradientsContainer.appendChild(div);
+            div.addEventListener('click', onChangeGradient);
+            if (idx === 0) selectedGradient = div;
+        });
+    });
+
 function onChangeGradient(e) {
     const gradientClass = e.target.classList[1];
     preview.style = '';
-    preview.className = `preview ${gradientClass}`;
+    preview.className = `preview ${gradientClass} ${textAlignClass}`;
     e.target.classList.add('selected');
     selectedGradient.classList.remove(`selected`);
     selectedGradient = e.target;
 }
 
-function onChangeSolidColor(e) {
-    const color = e.target.style.backgroundColor;
-    preview.className = 'preview';
+/**
+ * solid color background
+ */
+
+const paletteContainer = document.querySelector('.palette');
+const solidColorPicker = document.querySelector('#bg-color-picker');
+
+solidColorPicker.addEventListener('input', (e) => onChangeSolidColor(e.target.value));
+
+fetch('../assets/colors.json')
+    .then((res) => {
+        return res.json();
+    })
+    .then((jsonData) => {
+        jsonData.forEach((item, idx) => {
+            const div = document.createElement('div');
+            div.className = `color${idx === 0 ? ' selected' : ''}`;
+            div.style.backgroundColor = item.color;
+            paletteContainer.appendChild(div);
+            div.addEventListener('click', (e) =>
+                onChangeSolidColor(e.target.style.backgroundColor, e.target),
+            );
+            if (idx === 0) selectedColor = div;
+        });
+    });
+
+function onChangeSolidColor(color, target) {
+    preview.className = `preview ${textAlignClass}`;
     preview.style.backgroundImage = '';
     preview.style.backgroundColor = color;
-    e.target.classList.add('selected');
     selectedColor.classList.remove('selected');
-    selectedColor = e.target;
+    if (target) {
+        target.classList.add('selected');
+        selectedColor = target;
+    }
 }
 
-function debounce(callback, delay = 100) {
-    let timer;
-    return (...args) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => callback(...args), delay);
-    };
-}
+/**
+ * image background
+ */
+
+const randomImageButton = document.querySelector('#random-image-btn');
+const urlImageButton = document.querySelector('#url-image-btn');
+const urlImageInput = document.querySelector('#img-url');
+
+randomImageButton.addEventListener('click', onChangeBackgroundImage);
+urlImageButton.addEventListener('click', loadURLImage);
 
 function onChangeBackgroundImage() {
     fetch(`https://source.unsplash.com/random/1600x900`).then((res) => {
@@ -128,4 +151,54 @@ function isValidURL(url) {
     } catch (error) {
         return false;
     }
+}
+
+/**
+ * text align
+ */
+
+const alignSelectElements = document
+    .querySelector('.text-align-select')
+    .querySelectorAll('.select-button');
+
+alignSelectElements.forEach((item) => item.addEventListener('click', onClickAlignSelect));
+
+function addClassToPreviewText(className) {
+    preview.classList.remove('preview-text-left', 'preview-text-center', 'preview-text-right');
+    preview.classList.add(className);
+    textAlignClass = className;
+}
+
+function onChangeTextAlign(idx) {
+    let align = 'center';
+    if (idx === 0) align = 'preview-text-left';
+    else if (idx === 1) align = 'preview-text-center';
+    else align = 'preview-text-right';
+    addClassToPreviewText(align);
+}
+
+function onClickAlignSelect() {
+    const clickedItem = this;
+
+    alignSelectElements.forEach((item, idx) => {
+        if (clickedItem === item) {
+            if (item.classList.contains('selected')) return;
+            item.classList.toggle('selected');
+            onChangeTextAlign(idx);
+        } else {
+            item.classList.remove('selected');
+        }
+    });
+}
+
+/**
+ * font color
+ */
+const fontColorPicker = document.querySelector('#font-color-picker');
+
+fontColorPicker.addEventListener('input', onChangeFontColor);
+
+function onChangeFontColor() {
+    const selectedColor = fontColorPicker.value;
+    preview.style.color = selectedColor;
 }

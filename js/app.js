@@ -26,6 +26,7 @@ function captureExport() {
     html2canvas(document.querySelector('.preview'), {
         allowTaint: true,
         useCORS: true,
+        scale: 4,
     }).then((canvas) => {
         saveAs(canvas.toDataURL(), 'bloggyBanners');
     });
