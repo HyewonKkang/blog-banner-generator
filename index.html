@@ -7,6 +7,12 @@
         <title>BLOG BANNER GENERATOR</title>
         <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="assets/webgradients.css" />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
+            integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
     </head>
     <body>
         <header>
@@ -43,11 +49,15 @@
                     </p>
                     <div class="content-inner">
                         <div class="banner-size-select-section">
-                            <div class="banner-size-template banner-size-selected" role="button">
+                            <div
+                                class="banner-size-template banner-size-selected"
+                                role="button"
+                                aria-button-name="1x1"
+                            >
                                 <div class="empty-banner banner-1x1"></div>
                                 <span>1 x 1</span>
                             </div>
-                            <div class="banner-size-template" role="button">
+                            <div class="banner-size-template" role="button" aria-button-name="4x3">
                                 <div class="empty-banner banner-4x3"></div>
                                 <span>4 x 3</span>
                             </div>
@@ -199,7 +209,8 @@
         </footer> -->
         <script src="js/app.js"></script>
         <script src="js/stepper.js"></script>
-        <script src="js/control.js"></script>
+        <script defer src="js/preview.js" type="module"></script>
+        <script defer src="js/control.js" type="module"></script>
         <script src="assets/js/html2canvas.js"></script>
         <script src="assets/js/html2canvas.min.js"></script>
     </body>

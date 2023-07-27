@@ -156,6 +156,7 @@ header {
 
 .content .content-inner {
     margin-bottom: 4rem;
+    color: white;
 }
 
 .contour {
@@ -276,7 +277,6 @@ header {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    color: white;
     padding: 0 5rem;
     background-size: cover;
 }
