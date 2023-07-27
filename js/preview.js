@@ -1,6 +1,6 @@
 export default class Preview {
     constructor() {
-        this.size = '1x1';
+        this.size = '800x800'; // 1600x900 | 800x800
         this.title = '';
         this.subtitle = '';
         this.textAlign = 'preview-text-left';
@@ -24,6 +24,12 @@ export default class Preview {
         this.selectedColor = color;
     }
 
+    updateSize(size) {
+        this.size = size;
+        this.preview.classList.remove('preview-size-1600x900', 'preview-size-800x800');
+        this.preview.classList.add(`preview-size-${size}`);
+    }
+
     updateTitle(e) {
         this.previewTitle.textContent = e.target.value;
     }
@@ -35,14 +41,14 @@ export default class Preview {
     updateBackgroundGradient(target) {
         const gradientClass = target.classList[1];
         this.preview.style = '';
-        this.preview.className = `preview ${gradientClass} ${this.textAlign}`;
+        this.preview.className = `preview preview-size-${this.size} ${gradientClass} ${this.textAlign}`;
         target.classList.add('selected');
         this.gradient?.classList.remove(`selected`);
         this.gradient = target;
     }
 
     updateBackgroundColor(color, target) {
-        this.preview.className = `preview ${this.textAlign}`;
+        this.preview.className = `preview preview-size-${this.size} ${this.textAlign}`;
         this.preview.style.backgroundImage = '';
         this.preview.style.backgroundColor = color;
         this.selectedColor?.classList.remove('selected');

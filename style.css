@@ -271,14 +271,23 @@ header {
 
 .preview {
     margin: 0 auto;
-    height: 402px;
-    width: 768px;
+
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 0 5rem;
     background-size: cover;
+}
+
+.preview-size-800x800 {
+    height: 500px;
+    width: calc(500px - 10rem);
+}
+
+.preview-size-1600x900 {
+    height: 402px;
+    width: 768px;
 }
 
 .preview-text-center {

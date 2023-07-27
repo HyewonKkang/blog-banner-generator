@@ -46,7 +46,7 @@ function toggleBannerSize() {
         if (clickedItem === item) {
             if (item.classList.contains('banner-size-selected')) return;
             item.classList.toggle('banner-size-selected');
-            selectedSize = idx;
+            preview.updateSize(item.getAttribute('aria-button-name'));
         } else {
             item.classList.remove('banner-size-selected');
         }
@@ -113,7 +113,7 @@ randomImageButton.addEventListener('click', onChangeBackgroundImage);
 urlImageButton.addEventListener('click', loadURLImage);
 
 function onChangeBackgroundImage() {
-    fetch(`https://source.unsplash.com/random/1600x900`).then((res) => {
+    fetch(`https://source.unsplash.com/random/${preview.size}`).then((res) => {
         preview.updateBackgroundImage(res.url);
     });
 }
