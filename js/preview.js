@@ -52,10 +52,8 @@ export default class Preview {
         this.preview.style.backgroundImage = '';
         this.preview.style.backgroundColor = color;
         this.selectedColor?.classList.remove('selected');
-        if (target) {
-            target.classList.add('selected');
-            this.selectedColor = target;
-        }
+        target.classList.add('selected');
+        this.selectedColor = target;
     }
 
     updateBackgroundImage(url) {

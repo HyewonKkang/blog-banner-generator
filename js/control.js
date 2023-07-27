@@ -80,9 +80,6 @@ fetch('../assets/gradients.json')
  */
 
 const paletteContainer = document.querySelector('.palette');
-const solidColorPicker = document.querySelector('#bg-color-picker');
-
-solidColorPicker.addEventListener('input', (e) => preview.updateBackgroundColor(e.target.value));
 
 fetch('../assets/colors.json')
     .then((res) => {
@@ -99,6 +96,14 @@ fetch('../assets/colors.json')
             );
             if (idx === 0) preview.setColor(div);
         });
+        const input = document.createElement('input');
+        input.type = 'color';
+        input.id = 'bg-color-picker';
+        input.className = 'hidden-bg-color-picker';
+        paletteContainer.appendChild(input);
+        input.addEventListener('input', (e) =>
+            preview.updateBackgroundColor(e.target.value, e.target),
+        );
     });
 
 /**

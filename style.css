@@ -435,7 +435,8 @@ header {
     border: 1px solid var(--grey-1);
 }
 
-.palette .color.selected {
+.palette .color.selected,
+.solid .hidden-bg-color-picker.selected {
     border: 3px solid var(--grey-1);
 }
 
@@ -464,10 +465,12 @@ header {
     content: url('assets/icons/color-picker.svg');
     position: absolute;
     width: 20px;
+    margin-left: -2px;
+    margin-top: 3px;
 }
 
 .solid .hidden-bg-color-picker::-webkit-color-swatch {
-    border-radius: 10px;
+    border-radius: 8px;
     border: none;
 }
 .solid .hidden-bg-color-picker::-moz-color-swatch {
