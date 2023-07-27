@@ -59,7 +59,7 @@ function toggleBannerSize() {
 
 const gradientsContainer = document.querySelector('.gradients');
 
-fetch('../assets/gradients.json')
+fetch('assets/gradients.json')
     .then((res) => {
         return res.json();
     })
@@ -81,7 +81,7 @@ fetch('../assets/gradients.json')
 
 const paletteContainer = document.querySelector('.palette');
 
-fetch('../assets/colors.json')
+fetch('assets/colors.json')
     .then((res) => {
         return res.json();
     })
