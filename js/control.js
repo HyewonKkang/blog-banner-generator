@@ -59,7 +59,12 @@ function toggleBannerSize() {
 
 const gradientsContainer = document.querySelector('.gradients');
 
-fetch('assets/gradients.json')
+fetch('assets/gradients.json', {
+    headers: {
+        Accept: 'application / json',
+    },
+    method: 'GET',
+})
     .then((res) => {
         return res.json();
     })
@@ -118,7 +123,12 @@ randomImageButton.addEventListener('click', onChangeBackgroundImage);
 urlImageButton.addEventListener('click', loadURLImage);
 
 function onChangeBackgroundImage() {
-    fetch(`https://source.unsplash.com/random/${preview.size}`).then((res) => {
+    fetch(`https://source.unsplash.com/random/${preview.size}`, {
+        headers: {
+            Accept: 'application / json',
+        },
+        method: 'GET',
+    }).then((res) => {
         preview.updateBackgroundImage(res.url);
     });
 }
