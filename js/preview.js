@@ -1,9 +1,11 @@
 export default class Preview {
     constructor() {
-        this.size = '800x800'; // 1600x900 | 800x800
+        this.size = '1600x900'; // 1600x900 | 800x800
         this.title = '';
         this.subtitle = '';
         this.textAlign = 'preview-text-left';
+        this.font = 'font-noto-sans';
+        this.fontLarge = true;
 
         this.gradient = null;
         this.selectedColor = null;
@@ -73,5 +75,17 @@ export default class Preview {
 
     updateFontColor(color) {
         this.preview.style.color = color;
+    }
+
+    updateFont(value) {
+        this.preview.classList.remove(this.font);
+        this.preview.classList.add(value);
+        this.font = value;
+    }
+
+    updateFontSize() {
+        this.fontLarge = !this.fontLarge;
+        this.preview.classList.toggle('text-large');
+        this.preview.classList.toggle('text-medium');
     }
 }

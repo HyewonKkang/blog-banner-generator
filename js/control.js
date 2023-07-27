@@ -174,8 +174,17 @@ function onClickAlignSelect() {
 }
 
 /**
- * font color
+ * font style
  */
 const fontColorPicker = document.querySelector('#font-color-picker');
+const fontPicker = document.querySelector('.font-picker');
+const fontSizeButton = document.querySelector('.font-size');
 
 fontColorPicker.addEventListener('input', (e) => preview.updateFontColor(e.target.value));
+fontPicker.addEventListener('change', (e) => preview.updateFont(e.target.value));
+fontSizeButton.addEventListener('click', onClickFontSizeButton);
+
+function onClickFontSizeButton(e) {
+    preview.updateFontSize();
+    fontSizeButton.classList.toggle('selected');
+}
