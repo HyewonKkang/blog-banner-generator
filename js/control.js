@@ -11,20 +11,21 @@ titleField.addEventListener('keyup', preview.updateTitle);
 subTitleField.addEventListener('keyup', preview.updateSubTitle);
 bgSelectElements.forEach((item) => item.addEventListener('click', onClickBackgroundType));
 
-function onClickBackgroundType() {
-    const clickedItem = this;
+function onClickBackgroundType(e) {
+    const clickedItem = e.currentTarget;
+    const selectedClass = 'selected';
+    const visibleClass = 'visible';
+
+    if (clickedItem.classList.contains(selectedClass)) return;
 
     bgSelectElements.forEach((item, idx) => {
-        if (clickedItem === item) {
-            if (item.classList.contains('selected')) return;
-            item.classList.toggle('selected');
-            selectedSize = idx;
-            if (bgInputContainer[idx].classList.contains('visible')) return;
-            bgInputContainer[idx].classList.toggle('visible');
-        } else {
-            item.classList.remove('selected');
-            bgInputContainer[idx].classList.remove('visible');
-        }
+        const isClickedItem = item === clickedItem;
+        item.classList.toggle(selectedClass, isClickedItem);
+
+        bgInputContainer[idx].classList.toggle(
+            visibleClass,
+            isClickedItem && !item.classList.contains(visibleClass),
+        );
     });
 }
 
@@ -32,24 +33,22 @@ function onClickBackgroundType() {
  * size
  */
 
-const bannerSizeElements = document.querySelectorAll('.banner-size-template');
-let selectedSize = 0;
+const bannerSizeWrapper = document.querySelector('.banner-size-select-section');
+const bannerSizeElements = bannerSizeWrapper.querySelectorAll('.banner-size-template');
+bannerSizeWrapper.addEventListener('click', onChangeBannerSize);
 
-bannerSizeElements.forEach((item) => {
-    item.addEventListener('click', toggleBannerSize);
-});
+function onChangeBannerSize(e) {
+    const clickedItem = e.target;
+    const selectedClass = 'banner-size-selected';
+    const sizeAttributeName = 'aria-button-name';
 
-function toggleBannerSize() {
-    const clickedItem = this;
+    if (clickedItem.classList.contains(selectedClass)) return;
 
-    bannerSizeElements.forEach((item, idx) => {
-        if (clickedItem === item) {
-            if (item.classList.contains('banner-size-selected')) return;
-            item.classList.toggle('banner-size-selected');
-            preview.updateSize(item.getAttribute('aria-button-name'));
-        } else {
-            item.classList.remove('banner-size-selected');
-        }
+    bannerSizeElements.forEach((item) => {
+        const isClickedItem = clickedItem === item;
+        item.classList.toggle(selectedClass, isClickedItem);
+
+        if (isClickedItem) preview.updateSize(item.getAttribute(sizeAttributeName));
     });
 }
 
@@ -59,57 +58,63 @@ function toggleBannerSize() {
 
 const gradientsContainer = document.querySelector('.gradients');
 
-fetch('assets/gradients.json', {
-    headers: {
-        Accept: 'application / json',
-    },
-    method: 'GET',
-})
-    .then((res) => {
-        return res.json();
-    })
-    .then((jsonData) => {
-        jsonData.forEach((item, idx) => {
-            const div = document.createElement('div');
-            div.className = `gradient-circle ${item.name.toLowerCase().replace(/\s/g, '_')}${
-                idx === 0 ? ' selected' : ''
-            }`;
-            gradientsContainer.appendChild(div);
-            div.addEventListener('click', (e) => preview.updateBackgroundGradient(e.target));
-            if (idx === 0) preview.setGradient(div);
-        });
+async function fetchAndRenderData(endpoint, itemClass, updateFunc, setFunc) {
+    const res = await fetch(endpoint, {
+        headers: { Accept: 'application/json' },
+        method: 'GET',
     });
+
+    const jsonData = await res.json();
+
+    const fragment = document.createDocumentFragment();
+
+    jsonData.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = `${itemClass} ${item.name.toLowerCase().replace(/\s/g, '_')}${
+            idx === 0 ? ' selected' : ''
+        }`;
+        div.addEventListener('click', updateFunc);
+        fragment.appendChild(div);
+        if (idx === 0) setFunc(div);
+    });
+
+    return fragment;
+}
+
+async function fetchAndRenderGradients() {
+    const elements = await fetchAndRenderData(
+        'assets/gradients.json',
+        'gradient-circle',
+        (e) => preview.updateBackgroundGradient(e.target),
+        (div) => preview.setGradient(div),
+    );
+    gradientsContainer.appendChild(elements);
+}
+
+fetchAndRenderGradients();
 
 /**
  * solid color background
  */
 
 const paletteContainer = document.querySelector('.palette');
+const backgroundColorPicker = document.querySelector('#bg-color-picker');
 
-fetch('assets/colors.json')
-    .then((res) => {
-        return res.json();
-    })
-    .then((jsonData) => {
-        jsonData.forEach((item, idx) => {
-            const div = document.createElement('div');
-            div.className = `color${idx === 0 ? ' selected' : ''}`;
-            div.style.backgroundColor = item.color;
-            paletteContainer.appendChild(div);
-            div.addEventListener('click', (e) =>
-                preview.updateBackgroundColor(e.target.style.backgroundColor, e.target),
-            );
-            if (idx === 0) preview.setColor(div);
-        });
-        const input = document.createElement('input');
-        input.type = 'color';
-        input.id = 'bg-color-picker';
-        input.className = 'hidden-bg-color-picker';
-        paletteContainer.appendChild(input);
-        input.addEventListener('input', (e) =>
-            preview.updateBackgroundColor(e.target.value, e.target),
-        );
-    });
+backgroundColorPicker.addEventListener('input', (e) =>
+    preview.updateBackgroundColor(e.target, e.target.value),
+);
+
+async function fetchAndRenderColors() {
+    const elements = await fetchAndRenderData(
+        'assets/colors.json',
+        'color',
+        (e) => preview.updateBackgroundColor(e.target),
+        (div) => preview.setColor(div),
+    );
+    paletteContainer.insertBefore(elements, backgroundColorPicker);
+}
+
+fetchAndRenderColors();
 
 /**
  * image background
@@ -122,15 +127,17 @@ const urlImageInput = document.querySelector('#img-url');
 randomImageButton.addEventListener('click', onChangeBackgroundImage);
 urlImageButton.addEventListener('click', loadURLImage);
 
-function onChangeBackgroundImage() {
-    fetch(`https://source.unsplash.com/random/${preview.size}`, {
-        headers: {
-            Accept: 'application / json',
-        },
-        method: 'GET',
-    }).then((res) => {
+async function onChangeBackgroundImage() {
+    try {
+        const res = await fetch(`https://source.unsplash.com/random/${preview.size}`, {
+            headers: { Accept: 'application/json' },
+            method: 'GET',
+        });
+
         preview.updateBackgroundImage(res.url);
-    });
+    } catch (err) {
+        console.error('Failed to fetch image:', err);
+    }
 }
 
 function loadURLImage() {
@@ -162,24 +169,22 @@ const alignSelectElements = document
 alignSelectElements.forEach((item) => item.addEventListener('click', onClickAlignSelect));
 
 function onChangeTextAlign(idx) {
-    let align = 'center';
-    if (idx === 0) align = 'preview-text-left';
-    else if (idx === 1) align = 'preview-text-center';
-    else align = 'preview-text-right';
+    const alignOptions = ['preview-text-left', 'preview-text-center', 'preview-text-right'];
+    const align = alignOptions[idx] || 'preview-text-center';
     preview.updateTextAlign(align);
 }
 
-function onClickAlignSelect() {
-    const clickedItem = this;
+function onClickAlignSelect(e) {
+    const clickedItem = e.currentTarget;
+    const selectedClass = 'selected';
+
+    if (clickedItem.classList.contains(selectedClass)) return;
 
     alignSelectElements.forEach((item, idx) => {
-        if (clickedItem === item) {
-            if (item.classList.contains('selected')) return;
-            item.classList.toggle('selected');
-            onChangeTextAlign(idx);
-        } else {
-            item.classList.remove('selected');
-        }
+        const isClickedItem = item === clickedItem;
+        item.classList.toggle(selectedClass, isClickedItem);
+
+        if (isClickedItem) onChangeTextAlign(idx);
     });
 }
 
@@ -194,7 +199,7 @@ fontColorPicker.addEventListener('input', (e) => preview.updateFontColor(e.targe
 fontPicker.addEventListener('change', (e) => preview.updateFont(e.target.value));
 fontSizeButton.addEventListener('click', onClickFontSizeButton);
 
-function onClickFontSizeButton(e) {
+function onClickFontSizeButton() {
     preview.updateFontSize();
     fontSizeButton.classList.toggle('selected');
 }

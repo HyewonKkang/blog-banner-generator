@@ -7,6 +7,7 @@
         <title>BLOG BANNER GENERATOR</title>
         <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="assets/webgradients.css" />
+        <link rel="stylesheet" href="assets/colors.css" />
         <link rel="stylesheet" href="assets/fonts.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -99,8 +100,12 @@
                         <div
                             class="preview preview-size-1600x900 warm_flame preview-text-left text-large"
                         >
-                            <div class="preview-title">제목을 입력하세요</div>
-                            <div class="preview-subtitle border-top">부제목을 입력하세요.</div>
+                            <div class="preview-inner">
+                                <div class="preview-title">제목을 입력하세요</div>
+                                <div class="preview-subtitle">
+                                    <span>부제목을 입력하세요.</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="control-panel">
                             <div class="style-options-group">
@@ -122,7 +127,13 @@
                                 <div class="bg-input">
                                     <div class="gradients visible bg-input-type"></div>
                                     <div class="solid bg-input-type">
-                                        <div class="palette"></div>
+                                        <div class="palette">
+                                            <input
+                                                type="color"
+                                                id="bg-color-picker"
+                                                class="hidden-bg-color-picker"
+                                            />
+                                        </div>
                                     </div>
                                     <div class="image bg-input-type">
                                         <label for="random-image">랜덤 이미지 생성하기</label>

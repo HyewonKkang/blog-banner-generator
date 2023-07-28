@@ -28,8 +28,8 @@ export default class Preview {
 
     updateSize(size) {
         this.size = size;
-        this.preview.classList.remove('preview-size-1600x900', 'preview-size-800x800');
-        this.preview.classList.add(`preview-size-${size}`);
+        this.preview.classList.toggle('preview-size-1600x900', size === '1600x900');
+        this.preview.classList.toggle('preview-size-800x800', size === '800x800');
     }
 
     updateTitle(e) {
@@ -49,10 +49,16 @@ export default class Preview {
         this.gradient = target;
     }
 
-    updateBackgroundColor(color, target) {
+    updateBackgroundColor(target, bgColor) {
         this.preview.className = `preview preview-size-${this.size} ${this.textAlign}`;
+        if (bgColor) {
+            this.preview.style.backgroundColor = bgColor;
+        } else {
+            const colorClass = target.classList[1];
+            this.preview.classList.add(colorClass);
+            this.preview.style.backgroundColor = '';
+        }
         this.preview.style.backgroundImage = '';
-        this.preview.style.backgroundColor = color;
         this.selectedColor?.classList.remove('selected');
         target.classList.add('selected');
         this.selectedColor = target;
@@ -64,12 +70,7 @@ export default class Preview {
     }
 
     updateTextAlign(className) {
-        this.preview.classList.remove(
-            'preview-text-left',
-            'preview-text-center',
-            'preview-text-right',
-        );
-        this.preview.classList.add(className);
+        this.preview.classList.replace(this.textAlign, className);
         this.textAlign = className;
     }
 
@@ -78,8 +79,7 @@ export default class Preview {
     }
 
     updateFont(value) {
-        this.preview.classList.remove(this.font);
-        this.preview.classList.add(value);
+        this.preview.classList.replace(this.font, value);
         this.font = value;
     }
 
