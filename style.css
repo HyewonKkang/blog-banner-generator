@@ -270,6 +270,12 @@ header {
     transition: 0.3s ease-in-out;
 }
 
+.preview-wrapper {
+    border: 1px solid var(--grey-1);
+    margin: 0 auto;
+    width: fit-content;
+}
+
 .preview {
     margin: 0 auto;
     overflow: hidden;
@@ -278,11 +284,15 @@ header {
     justify-content: center;
     padding: 3rem;
     background-size: cover;
+    position: relative;
+    align-items: center;
+    text-align: center;
+    background-position: center;
 }
 
 .preview-size-800x800 {
+    width: 500px;
     height: 500px;
-    width: calc(500px - 10rem);
 }
 
 .preview-size-1600x900 {
@@ -290,19 +300,16 @@ header {
     width: 768px;
 }
 
-.preview-text-center {
+.preview-text-center .preview {
     align-items: center;
-    text-align: center;
 }
 
 .preview-text-left {
-    align-items: start;
-    text-align: left;
+    text-align: start;
 }
 
 .preview-text-right {
-    align-items: end;
-    text-align: right;
+    text-align: end;
 }
 
 .preview .preview-inner {
@@ -312,19 +319,24 @@ header {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
 }
 
 .preview .preview-title {
     font-size: 2.7rem;
     line-height: 3.2rem;
     width: 100%;
+    box-sizing: border-box;
+    /* padding: 0 3rem; */
 }
 
 .preview .preview-subtitle {
     font-size: 1.5rem;
     margin-top: 1rem;
-    line-height: 1.7rem;
+    line-height: 2rem;
     width: 100%;
+    box-sizing: border-box;
+    /* padding: 0 3rem; */
 }
 
 .preview.text-medium .preview-title {
@@ -334,16 +346,7 @@ header {
 
 .preview.text-medium .preview-subtitle {
     font-size: 1.3rem;
-    line-height: 1.4rem;
-}
-
-.preview .preview-subtitle.border-top {
-    padding: 0.5rem;
-}
-
-.preview .preview-subtitle.border-top span {
-    border-top: 1px solid currentColor;
-    padding-top: 0.3rem;
+    line-height: 1.7rem;
 }
 
 .control-panel {
@@ -646,4 +649,120 @@ footer {
 
 .github-icon {
     cursor: pointer;
+}
+
+.template-grid {
+    display: none;
+    gap: 30px;
+
+    position: relative;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.template-grid.template-grid-1600x900 {
+    grid-template-columns: repeat(auto-fill, 300px);
+    grid-auto-rows: 180px;
+}
+
+.template-grid.template-grid-800x800 {
+    grid-template-columns: repeat(auto-fill, 280px);
+    grid-auto-rows: 280px;
+}
+
+.template-grid.visible {
+    display: grid;
+}
+
+.template-grid .template {
+    width: 100%;
+    height: 100%;
+    transform: scale(1);
+    transition: transform 0.3s;
+    background-size: contain;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid var(--grey);
+    box-sizing: border-box;
+}
+
+.template-grid .template.selected {
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px 5px;
+}
+
+.template-grid .template:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s;
+}
+
+/* preview style */
+
+.template-1 .preview-subtitle {
+    padding: 0.5rem;
+}
+
+.template-1 .preview-subtitle span {
+    border-top: 1px solid currentColor;
+    padding-top: 0.3rem;
+}
+
+.template-2 .preview-inner {
+    box-shadow: 0 0 0 1rem currentColor inset;
+    padding: 0 1.8rem;
+}
+
+.template-3 {
+    box-shadow: 0 0 0 1rem currentColor inset;
+}
+
+.template-4 .preview-inner {
+    flex-direction: column-reverse;
+}
+
+.template-4 .preview-title {
+    margin-top: 0.7rem;
+    font-weight: bold;
+}
+
+.template-5 .preview-inner {
+    padding: 4rem 3rem;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.5);
+    background-clip: content-box;
+    height: inherit;
+}
+
+.template-5 .preview-subtitle {
+    margin-top: 1rem;
+}
+
+.template-6 .preview-inner {
+    padding: 4.5rem 0;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.5);
+    background-clip: content-box;
+    height: inherit;
+}
+
+.template-7 .preview-inner {
+    padding: 4.5rem 0;
+    border-top: 5px solid currentColor;
+    border-bottom: 5px solid currentColor;
+    background-clip: content-box;
+    height: fit-content;
+}
+
+.template-7 .preview-subtitle {
+    margin-top: 0.6rem;
+    font-size: 1.3rem;
+}
+
+.template-7 .preview-title {
+    font-weight: bold;
+}
+
+.template-7.preview.text-medium .preview-subtitle {
+    margin-top: 0.6rem;
+    font-size: 1.2rem;
 }

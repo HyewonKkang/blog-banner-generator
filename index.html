@@ -5,6 +5,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         <title>BLOG BANNER GENERATOR</title>
+        <link rel="favicon" href="assets/favicon.ico" type="image/x-icon" sizes="16x16" />
+        <link
+            rel="icon"
+            href="https://hyewonkkang.github.io/blog-banner-generator/favicon.ico?v=2"
+        />
         <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="assets/webgradients.css" />
         <link rel="stylesheet" href="assets/colors.css" />
@@ -86,7 +91,10 @@
                             >이슈</a
                         >에 남겨주시면 추가해드립니다. 단 이미지 도용은 불가합니다.
                     </p>
-                    <div class="content-inner"></div>
+                    <div class="content-inner">
+                        <div class="template-grid template-grid-1600x900 visible"></div>
+                        <div class="template-grid template-grid-800x800"></div>
+                    </div>
                 </div>
                 <div class="content content-3">
                     <p class="content-step-number">Step 3</p>
@@ -97,13 +105,15 @@
                         완성된 배너는 이미지 형식으로 다운 받을 수 있습니다.
                     </p>
                     <div class="content-inner">
-                        <div
-                            class="preview preview-size-1600x900 warm_flame preview-text-left text-large"
-                        >
-                            <div class="preview-inner">
-                                <div class="preview-title">제목을 입력하세요</div>
-                                <div class="preview-subtitle">
-                                    <span>부제목을 입력하세요.</span>
+                        <div class="preview-wrapper">
+                            <div
+                                class="preview preview-size-1600x900 warm_flame preview-text-center text-large template-0 font-noto-sans"
+                            >
+                                <div class="preview-inner">
+                                    <div class="preview-title">제목을 입력하세요</div>
+                                    <div class="preview-subtitle">
+                                        <span>부제목을 입력하세요.</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -157,15 +167,11 @@
                             </div>
                             <div class="text-control-group">
                                 <div class="select-button-group text-align-select">
-                                    <button
-                                        class="select-button selected"
-                                        id="text-align-left"
-                                        tabindex="0"
-                                    >
+                                    <button class="select-button" id="text-align-left" tabindex="0">
                                         <img src="assets/icons/align-left.svg" width="24" />
                                     </button>
                                     <button
-                                        class="select-button"
+                                        class="select-button selected"
                                         id="text-align-center"
                                         tabindex="1"
                                     >

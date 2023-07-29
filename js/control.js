@@ -1,11 +1,53 @@
 import Preview from './preview.js';
 
+const preview = new Preview();
+
+/**
+ * template
+ */
+
+const templateContainer1 = document.querySelector('.template-grid-1600x900');
+const templateContainer2 = document.querySelector('.template-grid-800x800');
+
+function initTemplates(size, parent) {
+    const fragment = document.createDocumentFragment();
+    Array.from({ length: 8 }).forEach((_, idx) => {
+        const div = document.createElement('div');
+        div.className = `template${idx === 0 ? ' selected' : ''}`;
+        div.role = 'button';
+        div.dataset.templateId = idx;
+        div.style.backgroundImage = `url(assets/images/templates/template${idx}-${size}.png)`;
+        fragment.appendChild(div);
+        div.addEventListener('click', (e) => onClickTemplate(e, parent));
+    });
+    parent.appendChild(fragment);
+}
+
+initTemplates('1600x900', templateContainer1);
+initTemplates('800x800', templateContainer2);
+
+function onClickTemplate(e, parent) {
+    const clickedItem = e.target;
+    const selectedClass = 'selected';
+
+    if (clickedItem.classList.contains(selectedClass)) return;
+    parent.querySelectorAll('.template').forEach((item, idx) => {
+        const isClickedItem = item === clickedItem;
+        item.classList.toggle(selectedClass, isClickedItem);
+    });
+
+    const templateId = clickedItem.dataset.templateId;
+    preview.updateTemplate(templateId);
+}
+
+/**
+ * background
+ */
+
 const titleField = document.querySelector('#title');
 const subTitleField = document.querySelector('#subtitle');
 const bgSelectElements = document.querySelector('.bg-select').querySelectorAll('.select-button');
 const bgInputContainer = document.querySelector('.bg-input').querySelectorAll('.bg-input-type');
-
-const preview = new Preview();
 
 titleField.addEventListener('keyup', preview.updateTitle);
 subTitleField.addEventListener('keyup', preview.updateSubTitle);
@@ -48,7 +90,12 @@ function onChangeBannerSize(e) {
         const isClickedItem = clickedItem === item;
         item.classList.toggle(selectedClass, isClickedItem);
 
-        if (isClickedItem) preview.updateSize(item.getAttribute(sizeAttributeName));
+        if (isClickedItem) {
+            const size = item.getAttribute(sizeAttributeName);
+            preview.updateSize(size);
+            templateContainer1.classList.toggle('visible');
+            templateContainer2.classList.toggle('visible');
+        }
     });
 }
 
