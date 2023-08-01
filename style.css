@@ -34,6 +34,19 @@ header {
     padding: 0.5rem 2rem;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+}
+
+header a {
+    text-decoration: none;
+    outline: none;
+    color: var(--black);
+}
+
+header a:hover,
+header a:active {
+    text-decoration: none;
+    color: var(--primary);
 }
 
 .logo {
@@ -633,22 +646,6 @@ header {
 .font-size:hover {
     border-color: var(--grey-1);
     background-color: var(--weak);
-}
-
-footer {
-    background-color: var(--white);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    bottom: 0;
-    left: 0;
-    position: fixed;
-    width: -webkit-fill-available;
-    padding: 2rem 1rem;
-}
-
-.github-icon {
-    cursor: pointer;
 }
 
 .template-grid {
